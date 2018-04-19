@@ -162,10 +162,13 @@ function findWheel() {
     var devicePath = ''
 
     for (var i in devices) {
-        // devices[i].product will be set to 'G27 Racing Wheel' on Windows and Mac. Linux will not have this key.
+        // devices[i].product will be set to 'G25 Racing Wheel' on Windows and Mac. Linux will not have this key.
         // devices[i].interface should be 0 on Windows and Linux.
         // devices[i].usagePage should be 1 on Windows and Mac.
-        if (devices[i].vendorId === 1133 && (devices[i].productId === 49812 || devices[i].productId === 49819) &&
+        if (devices[i].vendorId === 1133){
+            console.log(devices[i].product)
+        }
+        if (devices[i].vendorId === 1133 && devices[i].productId === 49817 &&
         (devices[i].interface === 0 || devices[i].usagePage === 1)) {
             devicePath = devices[i].path
             break
@@ -174,11 +177,11 @@ function findWheel() {
 
     if (devicePath === '') {
         if (options.debug) {
-            console.log(chalk.yellow('findWheel -> Oops, could not find a G27 Wheel. Is it plugged in?\n'))
+            console.log(chalk.yellow('findWheel -> Oops, could not find a G25 Wheel. Is it plugged in?\n'))
             process.exit()
         }
     } else if (options.debug) {
-        console.log(chalk.cyan('findWheel -> Found G27 Wheel at ') + devicePath)
+        console.log(chalk.cyan('findWheel -> Found G25 Wheel at ') + devicePath)
     }
 
     return devicePath
