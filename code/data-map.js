@@ -4,11 +4,11 @@
 // Data Map
 //----------
 /*
-Details on each item of the read buffer provided by node-hid for the Logitech G27.
+Details on each item of the read buffer provided by node-hid for the Logitech G27 (TODO: check if applicable for G25).
 
     Zero
         Shifter - Dpad
-            0 = Top
+            0 = Top  
             1 = Top Right
             2 = Right
             3 = Bottom Right
@@ -25,6 +25,20 @@ Details on each item of the read buffer provided by node-hid for the Logitech G2
             128 = Top
 
     One
+        Shifter - Gear Selector
+            00 = Neutral
+            10 = 1st Gear
+            20 = 2nd Gear
+            40 = 3rd Gear
+            80 = 4th Gear
+
+    Two
+         Shifter - Gear Selector
+
+            01 = 5th Gear
+            02 = 6th Gear
+
+        --- ignore two below here ---
         Wheel - Shifter Pedals
             1 = Right Shifter
             2 = Left Shifter
@@ -88,11 +102,7 @@ Details on each item of the read buffer provided by node-hid for the Logitech G2
             255 is no pressure
 
     Seven
-        Pedals - Clutch
-            0-255
-
-            0 is full clutch
-            255 is no pressure
+        ???
 
     Eight
         Shifter
@@ -109,6 +119,13 @@ Details on each item of the read buffer provided by node-hid for the Logitech G2
         Shifter
             Contains data on whether or not the gear selector is pressed down into the unit.
             If pressed down, the user is probably preparing to go into reverse. (not used)
+
+    Eleven
+        Pedals - Clutch
+            0-255
+
+            0 is full clutch
+            255 is no pressure
 */
 
 //-----------
@@ -148,7 +165,7 @@ function dataMap(dataDiffPositions, data, memory) {
             case 6:
                 memory = pedalsBrake(data, memory)
                 break
-            case 7:
+            case 11:
                 memory = pedalsClutch(data, memory)
                 break
             case 10:
@@ -286,7 +303,7 @@ function pedalsBrake(data, memory) {
 } // pedalsBrake
 
 function pedalsClutch(data, memory) {
-    memory.pedals.clutch = pedalToPercent(data[7])
+    memory.pedals.clutch = pedalToPercent(data[11])
     return memory
 } // pedalsClutch
 
