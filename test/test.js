@@ -7,7 +7,7 @@ var chalk = require('chalk')
 // Instructions
 //--------------
 console.log()
-console.log(chalk.cyan('Play with your G27 to make sure each feature works perfectly.'))
+console.log(chalk.cyan('Play with your G25 to make sure each feature works perfectly.'))
 console.log()
 console.log(chalk.cyan('Setting up wheel.'))
 console.log(chalk.cyan('One moment please.'))
