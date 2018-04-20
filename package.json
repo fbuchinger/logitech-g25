@@ -1,12 +1,12 @@
 {
-  "name": "logitech-g27",
+  "name": "logitech-g25",
   "version": "1.0.9",
-  "description": "Logitech G27 Racing Wheel for Node",
+  "description": "Logitech G25 Racing Wheel for Node",
   "license": "MIT",
-  "author": "Daniel Gagan",
+  "author": "Daniel Gagan, Franz Buchinger",
   "repository": {
     "type": "git",
-    "url": "git://github.com/ForestMist/logitech-g27.git"
+    "url": "https://github.com/fbuchinger/logitech-g25"
   },
   "main": "./code/index.js",
   "dependencies": {
@@ -17,12 +17,15 @@
     "node": ">=4.0.0"
   },
   "scripts": {
-    "test": "node test/test.js"
+    "test": "mocha"
   },
   "keywords": [
     "logitech",
-    "g27",
+    "g25",
     "racing wheel",
     "hid"
-  ]
+  ],
+  "devDependencies": {
+    "mocha": "^5.1.1"
+  }
 }

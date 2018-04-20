@@ -37,8 +37,9 @@ Details on each item of the read buffer provided by node-hid for the Logitech G2
 
             01 = 5th Gear
             02 = 6th Gear
+            04 = Reverse Gear
 
-        --- ignore two below here ---
+        --- ignore below here ---
         Wheel - Shifter Pedals
             1 = Right Shifter
             2 = Left Shifter
@@ -114,11 +115,9 @@ Details on each item of the read buffer provided by node-hid for the Logitech G2
 
     Ten
         Shifter - Gear Selector
-            0000 0001 = Reverse Gear
+            1b = Reverse Gear Selector pressed down (not used)
 
-        Shifter
-            Contains data on whether or not the gear selector is pressed down into the unit.
-            If pressed down, the user is probably preparing to go into reverse. (not used)
+    
 
     Eleven
         Pedals - Clutch
@@ -146,9 +145,10 @@ function dataMap(dataDiffPositions, data, memory) {
                 memory = shifterDpad(data, memory)
                 break
             case 1:
-                memory = shifterRedButtons(data, memory)
-                memory = wheelShiftPedals(data, memory)
-                memory = wheelButtonsTop(data, memory)
+                memory = shifterGear(data, memory)
+                //memory = shifterRedButtons(data, memory)
+                //memory = wheelShiftPedals(data, memory)
+                //memory = wheelButtonsTop(data, memory)
                 break
             case 2:
                 memory = shifterGear(data, memory)
@@ -381,44 +381,43 @@ function shifterDpad(data, memory) {
 } // shifterDpad
 
 function shifterGear(data, memory) {
-    var reverse = data[10]
+    //gear is in buffer item 2 or 3 
+    var stick = Math.max(data[1],data[2]);
 
-    if (reverse & 1) {
-        memory.shifter.gear = -1
-        return memory
-    }
-
-    var stick = data[2]
-    stick = reduceNumberFromTo(stick, 32)
 
     switch (stick) {
         case 0:
             // neutral
             memory.shifter.gear = 0
             break
-        case 1:
+        case 16:
             // first gear
             memory.shifter.gear = 1
             break
-        case 2:
+        case 32:
             // second gear
             memory.shifter.gear = 2
             break
-        case 4:
+        case 64:
             // third gear
             memory.shifter.gear = 3
             break
-        case 8:
+        case 128:
             // fourth gear
             memory.shifter.gear = 4
             break
-        case 16:
+        case 1:
             // fifth gear
             memory.shifter.gear = 5
             break
-        case 32:
+        case 2:
             // sixth gear
             memory.shifter.gear = 6
+            break
+        case 4:
+            //reverse gear
+            memory.shifter.gear = -1
+            break
     }
 
     return memory
